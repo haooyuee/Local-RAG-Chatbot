@@ -1,0 +1,3 @@
+modelEmbeddings: "sentence-transformers/all-MiniLM-L6-v2"
+autoTokenizer: "TheBloke/Llama-2-7B-Chat-GPTQ"
+autoModelForCausalLM: "TheBloke/Llama-2-7B-Chat-GPTQ"
