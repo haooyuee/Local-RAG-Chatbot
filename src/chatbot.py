@@ -17,6 +17,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 #from langchain_core.runnables import RunnableParallel
 #TEST
 from FakeLLM import FakePromptCopyLLM
+import io
 
 class PDFChatBot:
     def __init__(self, config_path="../config.yaml"):
@@ -78,6 +79,18 @@ class PDFChatBot:
     def load_documents(self, file):
         pdf_loader = PyPDFLoader(file.name)
         documents = pdf_loader.load()
+        # file_stream = io.BytesIO(file.getvalue())
+        # # 使用fitz直接从内存中打开PDF文件
+        # doc = fitz.open(stream=file_stream, filetype="pdf")
+
+        # # 初始化文档内容列表
+        # documents = []
+
+        # # 遍历PDF中的每一页
+        # for page_num in range(len(doc)):
+        #     # 提取当前页面的文本
+        #     page_text = doc[page_num].get_text()
+        #     documents.append(page_text)
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200, add_start_index=True)
         self.documents = text_splitter.split_documents(documents)
 
@@ -198,9 +211,11 @@ class PDFChatBot:
         self.chat_history.append((query, result['answer']))
         self.page = list(result['source_documents'][0])[1][1]['page']
 
-        for char in result['answer']:
-            history[-1][-1] += char
-        return history, " "
+        # for char in result['answer']:
+        #     history[-1][-1] += char
+        print(result)
+        #history.append((query, result['answer']))
+        return result['answer']
 
     def render_file(self, file):
         """
@@ -217,6 +232,15 @@ class PDFChatBot:
         pix = page.get_pixmap(matrix=fitz.Matrix(300 / 72, 300 / 72))
         image = Image.frombytes('RGB', [pix.width, pix.height], pix.samples)
         return image
+    
+    # def render_file(self, uploaded_file):
+    #     # 使用BytesIO对象从上传的文件中读取数据
+    #     file_stream = io.BytesIO(uploaded_file.getvalue())
+    #     doc = fitz.open("pdf", file_stream)
+    #     page = doc.load_page(self.page)  # 加载特定页面
+    #     pix = page.get_pixmap()
+    #     img = Image.open(io.BytesIO(pix.tobytes()))  # 将页面渲染为Pillow图像
+    #     return img
     
     def add_text(self, history, text):
         """
@@ -240,7 +264,7 @@ if __name__ == "__main__":
     # 假设有一个PDF文件已经准备好，这里用'example.pdf'代替
     # 在实际情况中，你需要确保这个文件存在
     pdf_file = gr.File()  # 这里仅为示例，实际应用中需要使用正确的文件对象
-    pdf_file.name = "../barlowtwins-CXR.pdf"  # 指定文件名，假设文件已经加载
+    pdf_file.name = "../documents/barlowtwins-CXR.pdf"  # 指定文件名，假设文件已经加载
 
     # 模拟五轮对话
     queries = [
@@ -256,5 +280,5 @@ if __name__ == "__main__":
         print(f"Round {i}: Query = {query}")
         # 更新聊天历史并获取回答（此处假设chat_history已初始化为空列表）
         chat_bot.chat_history= chat_bot.add_text(chat_bot.chat_history, query)
-        chat_bot.chat_history, _ = chat_bot.generate_response(chat_bot.chat_history, query, pdf_file)
+        chat_bot.chat_history= chat_bot.generate_response(chat_bot.chat_history, query, pdf_file)
         print(f"Answer: {chat_bot.chat_history[-1][1]}\n")
