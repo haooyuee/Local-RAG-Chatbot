@@ -31,13 +31,11 @@ uploaded_file = st.file_uploader("Upload a PDF document", type="pdf")
 tmp_file = None  # 初始化临时文件对象
 
 if uploaded_file is not None:
-    # 创建临时文件
     tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
-    # 将上传的文件内容写入临时文件
     shutil.copyfileobj(uploaded_file, tmp_file)
-    # 关闭临时文件，确保它可以被删除
+    tmp_file_path = tmp_file.name
     tmp_file.close()
-    # 将临时文件的路径传递给 PDFChatBot 类的方法
+    st.session_state['tmp_file_path'] = tmp_file_path
 
 try:
     # 假设 render_file 方法已调整为从上传的文件对象中渲染 PDF 页面，并返回 Pillow 图像对象
@@ -49,18 +47,17 @@ except Exception as e:
 
 # 文本输入，用于接收用户问题
 question = st.text_input("Ask a question about the PDF:")
-
 submit = st.button('Submit')
-
 if submit and question:
     if uploaded_file is not None:
         # 更新聊天历史
         st.session_state.chat_history.append(f"You: {question}")
         # 生成回应
         try:
-            # 假设 generate_response 方法已调整为接受问题和上传的文件对象，并返回回应
-            response = st.session_state.pdf_chatbot.generate_response(st.session_state.chat_history, question, tmp_file)
-            st.session_state.chat_history.append(f"Bot: {response}")
+            if 'tmp_file_path' in st.session_state:
+                # 假设 generate_response 方法已调整为接受问题和上传的文件对象，并返回回应
+                response = st.session_state.pdf_chatbot.generate_response(st.session_state.chat_history, question, st.session_state['tmp_file_path'])
+                st.session_state.chat_history.append(f"Bot: {response}")
         except Exception as e:
             st.error(f"Error generating response: {str(e)}")
     else:

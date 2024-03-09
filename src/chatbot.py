@@ -77,7 +77,7 @@ class PDFChatBot:
         self.prompt = PromptTemplate.from_template(template)
     
     def load_documents(self, file):
-        pdf_loader = PyPDFLoader(file.name)
+        pdf_loader = PyPDFLoader(file)
         documents = pdf_loader.load()
         # file_stream = io.BytesIO(file.getvalue())
         # # 使用fitz直接从内存中打开PDF文件
@@ -227,7 +227,7 @@ class PDFChatBot:
         Returns:
             PIL.Image.Image: The rendered page as an image.
         """
-        doc = fitz.open(file.name)
+        doc = fitz.open(file)
         page = doc[self.page]
         pix = page.get_pixmap(matrix=fitz.Matrix(300 / 72, 300 / 72))
         image = Image.frombytes('RGB', [pix.width, pix.height], pix.samples)
@@ -263,8 +263,8 @@ if __name__ == "__main__":
 
     # 假设有一个PDF文件已经准备好，这里用'example.pdf'代替
     # 在实际情况中，你需要确保这个文件存在
-    pdf_file = gr.File()  # 这里仅为示例，实际应用中需要使用正确的文件对象
-    pdf_file.name = "../documents/barlowtwins-CXR.pdf"  # 指定文件名，假设文件已经加载
+    # pdf_file = gr.File()  # 这里仅为示例，实际应用中需要使用正确的文件对象
+    pdf_file= "../documents/barlowtwins-CXR.pdf"  # 指定文件名，假设文件已经加载
 
     # 模拟五轮对话
     queries = [
