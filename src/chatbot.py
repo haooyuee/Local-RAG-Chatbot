@@ -183,7 +183,7 @@ class PDFChatBot:
         self.load_model()
         self.create_chain()
 
-    def generate_response(self, history, query, file):
+    def generate_response(self, query, file):
         """
         Generate a response based on user query and chat history.
 
