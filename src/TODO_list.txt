@@ -1,0 +1,25 @@
+1. Change PyPDFLoader to PDFMinerLoader 240325
+后者的效果更好,虽然不像前者那样会预先将PDF按照页数分割,但是它会使用"\n\n"将PDF分段,因此对后续的Chunking步骤很有用.
+
+2. 替换RecursiveCharacterTextSplitter分块,该分块方法基于文档分隔符分割(如1所述)
+https://blog.csdn.net/shadowcz007/article/details/135639504
+https://github.com/FullStackRetrieval-com/RetrievalTutorials/blob/da4941f8fab43b59652e96d8d5cd81c347bdd6ef/tutorials/LevelsOfTextSplitting/5_Levels_Of_Text_Splitting.ipynb
+Separators in Langchain:
+\n#{1,6} - Split by new lines followed by a header (H1 through H6)
+```\n - Code blocks
+\n\\*\\*\\*+\n - Horizontal Lines
+\n---+\n - Horizontal Lines
+\n___+\n - Horizontal Lines
+\n\n Double new lines
+\n - New line
+" " - Spaces
+"" - Character
+试一下这个包:unstructured (体积挺大,pytorch级别的大小) -> 别用了太大了,里面还有YOLOX划图片太哈人了.
+
+3. 测试新的embedding模型e5-small-v2 or base v2
+TO DO
+
+4. 测试其它类型的向量数据库FAISS
+TO DO
+https://www.reddit.com/r/LangChain/comments/16idhfw/what_are_your_best_practices_when_using/
+https://www.reddit.com/r/LangChain/comments/13jd9wo/improving_the_quality_of_qa_with_pdf/?rdt=38904&onetap_auto=true
