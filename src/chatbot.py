@@ -12,7 +12,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain.prompts import PromptTemplate
 #from langchain_core.runnables import RunnablePassthrough 
 #from langchain_core.output_parsers import StrOutputParser
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline, BitsAndBytesConfig
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 #from langchain_core.runnables import RunnableParallel
 #TEST
@@ -79,18 +79,6 @@ class PDFChatBot:
     def load_documents(self, file):
         pdf_loader = PyPDFLoader(file)
         documents = pdf_loader.load()
-        # file_stream = io.BytesIO(file.getvalue())
-        # # 使用fitz直接从内存中打开PDF文件
-        # doc = fitz.open(stream=file_stream, filetype="pdf")
-
-        # # 初始化文档内容列表
-        # documents = []
-
-        # # 遍历PDF中的每一页
-        # for page_num in range(len(doc)):
-        #     # 提取当前页面的文本
-        #     page_text = doc[page_num].get_text()
-        #     documents.append(page_text)
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200, add_start_index=True)
         self.documents = text_splitter.split_documents(documents)
 
@@ -106,39 +94,38 @@ class PDFChatBot:
         """
         self.vectordb = Chroma.from_documents(self.documents, self.embeddings)
 
-    def load_tokenizer(self):
-        """
-        Load the tokenizer from LOCAL.
-        """
-        self.tokenizer = AutoTokenizer.from_pretrained(self.config.get("autoTokenizer"))
+    # def load_tokenizer(self):
+    #     """
+    #     Load the tokenizer from LOCAL.
+    #     """
+    #     self.tokenizer = AutoTokenizer.from_pretrained(self.config.get("autoTokenizer"))
 
     def load_model(self, use_fake_llm = False):
         """
         Load the causal language model from LOCAL.
         """
+        if use_fake_llm:
+            # set FAKE LLM for Debugging
+            self.pipeline = FakePromptCopyLLM()
+            print("Currently using FAKE LLM.")
+            return
+        
         self.model = AutoModelForCausalLM.from_pretrained(self.config.get("autoModelForCausalLM"),
             device_map='auto',
             torch_dtype=torch.float16,
             token=True,
             load_in_8bit=False
         )
-        if use_fake_llm:
-            # set FAKE LLM for Debugging
-            self.pipeline = FakePromptCopyLLM()
-        else:
-            pipe = pipeline(
-                model=self.model,
-                task='text-generation',
-                tokenizer=self.tokenizer,
-                max_new_tokens=200
-            )
-            self.pipeline = HuggingFacePipeline(pipeline=pipe)
+        self.tokenizer = AutoTokenizer.from_pretrained(self.config.get("autoTokenizer"))
+        pipe = pipeline(
+            model=self.model,
+            task='text-generation',
+            tokenizer=self.tokenizer,
+            max_new_tokens=512
+        )
+        self.pipeline = HuggingFacePipeline(pipeline=pipe)
 
-    # def format_docs(self, docs):
-    #     # for basic chain
-    #     return "\n\n".join(doc.page_content for doc in docs)
-
-    def get_chat_history(self, inputs) -> str:
+    def get_chat_history(self, inputs):
         res = []
         for human, ai in inputs:
             res.append(f"Human:{human}\nAI:{ai}")
@@ -171,7 +158,6 @@ class PDFChatBot:
     def process_file(self, file):
         """
         Process the uploaded PDF file and initialize necessary components: Tokenizer, VectorDB and LLM.
-
         Parameters:
             file (FileStorage): The uploaded PDF file.
         """
@@ -179,19 +165,17 @@ class PDFChatBot:
         self.load_documents(file)
         self.load_embeddings()
         self.load_vectordb()
-        self.load_tokenizer()
+        #self.load_tokenizer()
         self.load_model()
         self.create_chain()
 
     def generate_response(self, query, file):
         """
         Generate a response based on user query and chat history.
-
         Parameters:
             history (list): List of chat history tuples.
             query (str): User's query.
             file (FileStorage): The uploaded PDF file.
-
         Returns:
             tuple: Updated chat history and a space.
         """
@@ -203,27 +187,16 @@ class PDFChatBot:
             self.process_file(file)
             self.processed = True
         
-        # 打印提示模板
-        #print("Prompt Template: \n", self.prompt)
-        #result = self.rag_chain_with_source.invoke(query)
-        #print("result: \n", result)
         result = self.chain({"question": query, 'chat_history': self.chat_history}, return_only_outputs=True)
-        self.chat_history.append((query, result['answer']))
+        self.chat_history.append((query, result["answer"])) 
         self.page = list(result['source_documents'][0])[1][1]['page']
-
-        # for char in result['answer']:
-        #     history[-1][-1] += char
-        print(result)
-        #history.append((query, result['answer']))
         return result['answer']
 
     def render_file(self, file):
         """
         Renders a specific page of a PDF file as an image.
-
         Parameters:
             file (FileStorage): The PDF file.
-
         Returns:
             PIL.Image.Image: The rendered page as an image.
         """
@@ -232,53 +205,26 @@ class PDFChatBot:
         pix = page.get_pixmap(matrix=fitz.Matrix(300 / 72, 300 / 72))
         image = Image.frombytes('RGB', [pix.width, pix.height], pix.samples)
         return image
-    
-    # def render_file(self, uploaded_file):
-    #     # 使用BytesIO对象从上传的文件中读取数据
-    #     file_stream = io.BytesIO(uploaded_file.getvalue())
-    #     doc = fitz.open("pdf", file_stream)
-    #     page = doc.load_page(self.page)  # 加载特定页面
-    #     pix = page.get_pixmap()
-    #     img = Image.open(io.BytesIO(pix.tobytes()))  # 将页面渲染为Pillow图像
-    #     return img
-    
-    def add_text(self, history, text):
-        """
-        Add user-entered text to the chat history.
-
-        Parameters:
-            history (list): List of chat history tuples.
-            text (str): User-entered text.
-
-        Returns:
-            list: Updated chat history.
-        """
-        if not text:
-            raise gr.Error('Enter text')
-        history.append((text, ''))
-        return history
 
 if __name__ == "__main__":
-    chat_bot = PDFChatBot(config_path="../config.yaml")
-
-    # 假设有一个PDF文件已经准备好，这里用'example.pdf'代替
-    # 在实际情况中，你需要确保这个文件存在
-    # pdf_file = gr.File()  # 这里仅为示例，实际应用中需要使用正确的文件对象
-    pdf_file= "../documents/barlowtwins-CXR.pdf"  # 指定文件名，假设文件已经加载
-
-    # 模拟五轮对话
-    queries = [
+    path        =  "D:\GithubLocal\RAG-with-Llama2\config.yaml"
+    
+    pdf_file    = "../documents/barlowtwins-CXR.pdf"
+    pdf_file    = "D:/GithubLocal/RAG-with-Llama2/documents/barlowtwins-CXR.pdf"
+    chat_bot    = PDFChatBot(config_path=path)
+    queries     = [
         "What is the main topic of the document?",
         "Can you explain the key findings?",
         "Are there any notable figures or tables?",
         "How do the authors conclude their research?",
-        "Is there any discussion on future work?"
+        "What is the last questions?"
     ]
 
-    # 执行对话
-    for i, query in enumerate(queries, start=1):
-        print(f"Round {i}: Query = {query}")
-        # 更新聊天历史并获取回答（此处假设chat_history已初始化为空列表）
-        chat_bot.chat_history= chat_bot.add_text(chat_bot.chat_history, query)
-        chat_bot.chat_history= chat_bot.generate_response(chat_bot.chat_history, query, pdf_file)
-        print(f"Answer: {chat_bot.chat_history[-1][1]}\n")
+    # begin
+    for i in range(len(queries)):
+        print(f"Round {i}: Query = {queries[i]}")
+        answer= chat_bot.generate_response(queries[i], pdf_file)
+        print(f"Answer: {answer}\n")
+    print("chathistory ################")
+    print(chat_bot.chat_history)
+    print("chathistory finish##########")
