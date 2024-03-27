@@ -15,11 +15,30 @@ Separators in Langchain:
 " " - Spaces
 "" - Character
 试一下这个包:unstructured (体积挺大,pytorch级别的大小) -> 别用了太大了,里面还有YOLOX划图片太哈人了.
+这玩意儿不适合local
+2. 1. 修改了RecursiveCharacterTextSplitter分块的参数,效果可能会变好,等待测试.
 
-3. 测试新的embedding模型e5-small-v2 or base v2
-TO DO
+
+3. 测试新的embedding模型multilingual-e5-small
+还挺好
+
+TEST:
+TO Do
 
 4. 测试其它类型的向量数据库FAISS
-TO DO
+感觉不到和ChormaDB的显著区别
 https://www.reddit.com/r/LangChain/comments/16idhfw/what_are_your_best_practices_when_using/
 https://www.reddit.com/r/LangChain/comments/13jd9wo/improving_the_quality_of_qa_with_pdf/?rdt=38904&onetap_auto=true
+
+5.添加和测试混合搜索
+TO DO
+
+6.添加和测试重新排序reranking功能
+TO DO
+
+7.添加上下文压缩和上下文过滤LLMChainFilter, LLMChainExtractor可能有用
+TO DO
+
+8.添加agent代理,使用ReAct操作
+https://python.langchain.com.cn/docs/modules/agents/agent_types/react
+TO DO
