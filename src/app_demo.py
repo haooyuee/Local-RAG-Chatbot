@@ -2,7 +2,7 @@
 #streamlit run app_demo.py
 import streamlit as st
 from streamlit_chat import message
-from chatbot import PDFChatBot
+from chatbot_base import PDFChatBot
 import time
 import atexit
 import tempfile

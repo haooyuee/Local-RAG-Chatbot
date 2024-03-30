@@ -3,22 +3,17 @@ import fitz
 import torch
 import streamlit as st
 from PIL import Image
-import re  # For regular expressions
 from langchain import hub
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma, FAISS
+from langchain_community.vectorstores import Chroma
 from langchain_community.llms import HuggingFacePipeline
 from langchain.chains import ConversationalRetrievalChain
-from langchain_community.document_loaders import PDFMinerLoader
+from langchain_community.document_loaders import PyPDFLoader
 from langchain.prompts import PromptTemplate
 #from langchain_core.runnables import RunnablePassthrough 
 #from langchain_core.output_parsers import StrOutputParser
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline, BitsAndBytesConfig
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.retrievers import BM25Retriever, EnsembleRetriever, ContextualCompressionRetriever
-from langchain.retrievers.document_compressors import CohereRerank #cohere 4.57
-#from langchain_cohere import CohereRerank #cohere v5 have bug
-from apikeys import Cohere_API
 #from langchain_core.runnables import RunnableParallel
 #TEST
 from FakeLLM import FakePromptCopyLLM
@@ -80,46 +75,24 @@ class PDFChatBot:
                 "the user's query."
             )
         self.prompt = PromptTemplate.from_template(template)
-    def clean_text(text):
-        #text = text.lower()  # Convert to lowercase
-        #text = re.sub(r'[^a-z0-9\s-]', '', text)  # Remove non-alphanumeric characters (except space and dash)
-        text = re.sub(r'-\n', '', text)  # Remove hyphens at line breaks
-        return text
     
     def load_documents(self, file):
-        pdf_loader = PDFMinerLoader(file, concatenate_pages = False)
+        pdf_loader = PyPDFLoader(file)
         documents = pdf_loader.load()
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=512, 
-            chunk_overlap=64, 
-            add_start_index=True,
-            length_function = len,
-            separators=["\n\n", "\n", "(?<=[\.?])", "(?<=[\,;])", " "])
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200, add_start_index=True)
         self.documents = text_splitter.split_documents(documents)
 
     def load_embeddings(self):
         """
         Load embeddings from LOCAL.
         """
-        self.embeddings = HuggingFaceEmbeddings(model_name="intfloat/multilingual-e5-small")
+        self.embeddings = HuggingFaceEmbeddings(model_name=self.config.get("modelEmbeddings"))
 
-    def creat_retriever(self):
+    def load_vectordb(self):
         """
         Load the vector database from the documents and embeddings.
         """
-        # self.vectordb = Chroma.from_documents(self.documents, self.embeddings)
-        # self.retriever=self.vectordb.as_retriever(search_type="similarity", search_kwargs={"k": 2})
-        FAISSdb = FAISS.from_documents(self.documents, self.embeddings) 
-        FAISS_retriever=FAISSdb.as_retriever(search_type="similarity", search_kwargs={"k": 5})
-        bm25_retriever = BM25Retriever.from_documents(self.documents)
-        bm25_retriever.k = 5
-        # initialize the ensemble retriever
-        ensemble_retriever = EnsembleRetriever(
-            retrievers=[bm25_retriever, FAISS_retriever], weights=[0.5, 0.5])
-        compressor = CohereRerank(cohere_api_key=Cohere_API, top_n=3)
-        self.retriever = ContextualCompressionRetriever(
-            base_compressor=compressor, base_retriever=ensemble_retriever)
-            
+        self.vectordb = Chroma.from_documents(self.documents, self.embeddings)
 
     # def load_tokenizer(self):
     #     """
@@ -162,15 +135,26 @@ class PDFChatBot:
         """
         Create a Conversational Retrieval Chain
         """
+        retriever=self.vectordb.as_retriever(search_type="similarity", search_kwargs={"k": 2})
         self.chain = ConversationalRetrievalChain.from_llm(
             self.pipeline,
-            retriever=self.retriever,
+            retriever=retriever,
             condense_question_llm  = self.pipeline,
             return_source_documents=True,
             verbose=True,
             get_chat_history=self.get_chat_history
         )
 
+        #retriever_with_print = (lambda x: self.print_and_return(retriever(x), label="Retriever Output"))
+                # self.rag_chain = (
+                #     RunnablePassthrough.assign(context=(lambda x: self.format_docs(x["context"])))
+                #     | self.prompt
+                #     | self.pipeline
+                #     | StrOutputParser()
+                # )
+                # self.rag_chain_with_source = RunnableParallel(
+                #     {"context": retriever, "question": RunnablePassthrough()}
+                #     ).assign(answer=self.rag_chain)
     def process_file(self, file):
         """
         Process the uploaded PDF file and initialize necessary components: Tokenizer, VectorDB and LLM.
@@ -180,7 +164,7 @@ class PDFChatBot:
         #self.create_prompt_template()
         self.load_documents(file)
         self.load_embeddings()
-        self.creat_retriever()
+        self.load_vectordb()
         #self.load_tokenizer()
         self.load_model()
         self.create_chain()
