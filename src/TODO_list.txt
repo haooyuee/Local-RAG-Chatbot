@@ -17,13 +17,15 @@ Separators in Langchain:
 试一下这个包:unstructured (体积挺大,pytorch级别的大小) -> 别用了太大了,里面还有YOLOX划图片太哈人了.
 这玩意儿不适合local
 2. 1. 修改了RecursiveCharacterTextSplitter分块的参数,效果可能会变好,等待测试.
+2. 2. 尝试按照文章结构分块
 
 
 3. 测试新的embedding模型multilingual-e5-small
 还挺好
 
-TEST:
+***TEST:
 TO Do
+还没做,晚点做
 
 4. 测试其它类型的向量数据库FAISS
 感觉不到和ChormaDB的显著区别
@@ -31,10 +33,17 @@ https://www.reddit.com/r/LangChain/comments/16idhfw/what_are_your_best_practices
 https://www.reddit.com/r/LangChain/comments/13jd9wo/improving_the_quality_of_qa_with_pdf/?rdt=38904&onetap_auto=true
 
 5.添加和测试混合搜索
-TO DO
+Done
+添加FAISS和BM25混合搜索
 
 6.添加和测试重新排序reranking功能
-TO DO
+正在尝试Cohere,目前cohere正在更新,产生bug
+尝试回退成 cohere 4.57 可以正确运行.
+
+***TEST:
+TO Do
+还没做,晚点做
+需要寻找一些评估方法.
 
 7.添加上下文压缩和上下文过滤LLMChainFilter, LLMChainExtractor可能有用
 TO DO
