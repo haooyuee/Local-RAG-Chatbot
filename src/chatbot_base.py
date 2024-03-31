@@ -16,7 +16,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline, BitsAndB
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 #from langchain_core.runnables import RunnableParallel
 #TEST
-from FakeLLM import FakePromptCopyLLM
+from src.FakeLLM import FakePromptCopyLLM
 import io
 
 class PDFChatBot:
@@ -190,7 +190,7 @@ class PDFChatBot:
         result = self.chain({"question": query, 'chat_history': self.chat_history}, return_only_outputs=True)
         self.chat_history.append((query, result["answer"])) 
         self.page = list(result['source_documents'][0])[1][1]['page']
-        return result['answer']
+        return result
 
     def render_file(self, file):
         """

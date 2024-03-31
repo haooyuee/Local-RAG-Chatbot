@@ -21,7 +21,7 @@ from langchain.retrievers.document_compressors import CohereRerank #cohere 4.57
 from apikeys import Cohere_API
 #from langchain_core.runnables import RunnableParallel
 #TEST
-from FakeLLM import FakePromptCopyLLM
+from src.FakeLLM import FakePromptCopyLLM
 import io
 
 class PDFChatBot:
@@ -206,7 +206,7 @@ class PDFChatBot:
         result = self.chain({"question": query, 'chat_history': self.chat_history}, return_only_outputs=True)
         self.chat_history.append((query, result["answer"])) 
         self.page = list(result['source_documents'][0])[1][1]['page']
-        return result['answer']
+        return result
 
     def render_file(self, file):
         """
@@ -240,7 +240,7 @@ if __name__ == "__main__":
     for i in range(len(queries)):
         print(f"Round {i}: Query = {queries[i]}")
         answer= chat_bot.generate_response(queries[i], pdf_file)
-        print(f"Answer: {answer}\n")
+        print(f"Answer: {answer['answer']}\n")
     print("chathistory ################")
     print(chat_bot.chat_history)
     print("chathistory finish##########")
