@@ -148,13 +148,14 @@ class PDFChatBot:
             model=self.model,
             task='text-generation',
             tokenizer=self.tokenizer,
-            max_new_tokens=512
+            max_new_tokens=256
         )
         self.pipeline = HuggingFacePipeline(pipeline=pipe)
 
-    def get_chat_history(self, inputs):
+    def get_chat_history(self, inputs, max_history_length = 5):
         res = []
-        for human, ai in inputs:
+        # Make sure the number of chat turns input to the chain is less than max_history_length
+        for human, ai in inputs[-max_history_length:]:
             res.append(f"Human:{human}\nAI:{ai}")
         return "\n".join(res)
     

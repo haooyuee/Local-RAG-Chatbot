@@ -75,10 +75,10 @@ if submit_button and question:
 
         try:
             with st.spinner(text='Generating response...'):
-                response = st.session_state.pdf_chatbot.generate_response(
+                result = st.session_state.pdf_chatbot.generate_response(
                     question, 
                     st.session_state['tmp_file_path'])
-                st.session_state.bot_history.append(response)
+                st.session_state.bot_history.append(result["answer"])
         except Exception as e:
             st.error(f"Error generating response: {str(e)}")
     else:

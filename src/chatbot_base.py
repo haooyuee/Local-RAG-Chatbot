@@ -3,7 +3,6 @@ import fitz
 import torch
 import streamlit as st
 from PIL import Image
-from langchain import hub
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_community.llms import HuggingFacePipeline
@@ -12,7 +11,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain.prompts import PromptTemplate
 #from langchain_core.runnables import RunnablePassthrough 
 #from langchain_core.output_parsers import StrOutputParser
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline, BitsAndBytesConfig
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 #from langchain_core.runnables import RunnableParallel
 #TEST
@@ -36,6 +35,7 @@ class PDFChatBot:
         self.documents = None
         self.embeddings = None
         self.vectordb = None
+        self.retriever = None
         self.tokenizer = None
         self.model = None
         self.pipeline = None
@@ -79,7 +79,7 @@ class PDFChatBot:
     def load_documents(self, file):
         pdf_loader = PyPDFLoader(file)
         documents = pdf_loader.load()
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200, add_start_index=True)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=64, add_start_index=True)
         self.documents = text_splitter.split_documents(documents)
 
     def load_embeddings(self):
@@ -88,11 +88,12 @@ class PDFChatBot:
         """
         self.embeddings = HuggingFaceEmbeddings(model_name=self.config.get("modelEmbeddings"))
 
-    def load_vectordb(self):
+    def creat_retriever(self):
         """
         Load the vector database from the documents and embeddings.
         """
         self.vectordb = Chroma.from_documents(self.documents, self.embeddings)
+        self.retriever = self.vectordb.as_retriever(search_type="similarity", search_kwargs={"k": 3})
 
     # def load_tokenizer(self):
     #     """
@@ -118,16 +119,17 @@ class PDFChatBot:
         )
         self.tokenizer = AutoTokenizer.from_pretrained(self.config.get("autoTokenizer"))
         pipe = pipeline(
-            model=self.model,
-            task='text-generation',
-            tokenizer=self.tokenizer,
-            max_new_tokens=512
+            model = self.model,
+            task ='text-generation',
+            tokenizer = self.tokenizer,
+            max_new_tokens = 256
         )
         self.pipeline = HuggingFacePipeline(pipeline=pipe)
 
-    def get_chat_history(self, inputs):
+    def get_chat_history(self, inputs, max_history_length = 5):
         res = []
-        for human, ai in inputs:
+        # Make sure the number of chat turns input to the chain is less than max_history_length
+        for human, ai in inputs[-max_history_length:]:
             res.append(f"Human:{human}\nAI:{ai}")
         return "\n".join(res)
     
@@ -135,14 +137,13 @@ class PDFChatBot:
         """
         Create a Conversational Retrieval Chain
         """
-        retriever=self.vectordb.as_retriever(search_type="similarity", search_kwargs={"k": 2})
         self.chain = ConversationalRetrievalChain.from_llm(
             self.pipeline,
-            retriever=retriever,
-            condense_question_llm  = self.pipeline,
-            return_source_documents=True,
-            verbose=True,
-            get_chat_history=self.get_chat_history
+            retriever = self.retriever,
+            condense_question_llm = self.pipeline,
+            return_source_documents = True,
+            verbose =True,
+            get_chat_history =self.get_chat_history
         )
 
         #retriever_with_print = (lambda x: self.print_and_return(retriever(x), label="Retriever Output"))
@@ -164,7 +165,7 @@ class PDFChatBot:
         #self.create_prompt_template()
         self.load_documents(file)
         self.load_embeddings()
-        self.load_vectordb()
+        self.creat_retriever()
         #self.load_tokenizer()
         self.load_model()
         self.create_chain()
@@ -213,6 +214,11 @@ if __name__ == "__main__":
     pdf_file    = "D:/GithubLocal/RAG-with-Llama2/documents/barlowtwins-CXR.pdf"
     chat_bot    = PDFChatBot(config_path=path)
     queries     = [
+        "What is the main topic of the document?",
+        "Can you explain the key findings?",
+        "Are there any notable figures or tables?",
+        "How do the authors conclude their research?",
+        "What is the last questions?",
         "What is the main topic of the document?",
         "Can you explain the key findings?",
         "Are there any notable figures or tables?",

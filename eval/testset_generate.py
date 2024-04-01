@@ -25,7 +25,7 @@ def generate_responses(test_questions, test_answers):
 
 if __name__ == "__main__":
     directory = "data"
-    path        =  "D:\GithubLocal\RAG-with-Llama2\config.yaml"
+    path        =  "D:/GithubLocal/RAG-with-Llama2/config.yaml"
     pdf_file    = "D:/GithubLocal/RAG-with-Llama2/documents/2312.10997.pdf"
     chat_bot    = chatbot.PDFChatBot(config_path=path)
 
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     test_questions = eval_dataset['question'].values.tolist()
     test_answers = eval_dataset['ground_truth'].values.tolist()
 
-    dataset = generate_responses(test_questions[2:8], test_answers[2:8])
+    dataset = generate_responses(test_questions, test_answers)
 
     now = datetime.datetime.now()
     os.makedirs('data', exist_ok=True)
@@ -43,5 +43,6 @@ if __name__ == "__main__":
     dataset.save_to_disk(full_path)
     print(f"DS file saved: {full_path}")
     print(dataset.to_pandas())
+    print("Done")
     
 
