@@ -9,11 +9,11 @@ import tempfile
 import shutil
 import os
 
-# 清理函数，用于关闭临时文件并删除
+# delete temporary files
 def cleanup():
     if 'tmp_file_path' in st.session_state and os.path.exists(st.session_state['tmp_file_path']):
         os.remove(st.session_state['tmp_file_path'])
-# 在程序退出时自动调用清理函数
+# when program exits
 atexit.register(cleanup)
 
 def show_chat():
@@ -24,7 +24,7 @@ def show_chat():
                     is_user=True, 
                     key=str(i)+'_user', seed=2)
 
-# 设置主题和标题
+# Set theme and title
 st.set_page_config(page_title="PDF Chatbot Q&A", layout="wide")
 st.title('RAG Chatbot Q&A')
 st.sidebar.header("Intro")
@@ -34,7 +34,7 @@ st.sidebar.info(
 )
 
 
-# 初始化PDFChatBot和聊天历史
+# Initialize PDFChatBot and chat history
 if 'pdf_chatbot' not in st.session_state:
     st.session_state.pdf_chatbot = PDFChatBot()
 
@@ -49,7 +49,7 @@ left_column, right_column = st.columns([3, 2])
 ### ********************* RIGHT SIDE ********************* 
 with right_column:
     uploaded_file = st.file_uploader("📁 Upload PDF", type="pdf", key="pdf_uploader")
-# 处理PDF上传并显示预览
+# PDF upload and show preview
 if uploaded_file is not None:
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
         shutil.copyfileobj(uploaded_file, tmp_file)
