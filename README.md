@@ -1,15 +1,15 @@
-# PDF RAG ChatBot with Llama2 and Gradio
-![image](https://github.com/Niez-Gharbi/PDF-RAG-with-Llama2-and-Gradio/assets/57814219/29efb4c9-1f15-479a-a57b-34bdd2085068)
+# Local Assistant Chatbot with Memory Through Retrieval-Augmented Generation
+Ongoing project ... 
 
 
-PDFChatBot is a Python-based chatbot designed to answer questions based on the content of uploaded PDF files. It utilizes the Gradio library for creating a user-friendly interface and LangChain for natural language processing.
+This project explores leveraging Retrieval Augmented Generation (RAG) to empower local assistant chatbots for efficient and privacy-aware PDF management. By integrating RAG with local pre-trained large language models (LLMs) within the Langchain framework, we aim to overcome limitations in task-specific performance and computational efficiency. This local ChatPDF-like chatbot will prioritize both retrieval and generation quality, evaluated through frameworks like RGB and RAGAS alongside human assessment. 
 
 ## Technologies Used 🚀
 * Langchain
-* Llama2
-* ChromaDB
-* Hugging Face
-* Gradio
+* Model : Llama2, Gemma
+* Vector database : ChromaDB, FAISS
+* Hugging Face Transformers
+* Streamlit
 
 ## Features ⭐
 * Process PDF files and extract information for answering questions.
@@ -31,14 +31,12 @@ The ChatBot uses a configuration file (config.yaml) to specify Hugging Face mode
 2. Enter your questions in the text box.
 3. Click the "Send" button to submit your question.
 4. View the chat history and responses in the interface.
-![image](https://github.com/Niez-Gharbi/PDF-RAG-with-Llama2-and-Gradio/assets/57814219/77b76c05-86fe-4020-8c7a-cf3d7402dcfd)
 
 ## Running Locally 💻
 To run the PDF Interaction ChatBot, execute the following command:
 
 ```
-cd src
-python app.py
+streamlit run app_demo.py
 ```
 
 ## License
