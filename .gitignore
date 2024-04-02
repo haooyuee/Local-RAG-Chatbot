@@ -1,1 +1,6 @@
-\documents
+documents/
+LocalRAG.egg-info/
+src/__pycache__
+eval/__pycache__
+data/
+apikeys.py
