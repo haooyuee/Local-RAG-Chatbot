@@ -1,5 +1,5 @@
 #streamlit run app_demo.py --logger.level=DEBUG
-#streamlit run app_demo.py
+#streamlit run src\app_demo.py
 import streamlit as st
 from streamlit_chat import message
 from chatbot_base import PDFChatBot
