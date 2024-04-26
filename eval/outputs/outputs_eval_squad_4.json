@@ -1,0 +1,106 @@
+{
+    "question": [
+        "What is the problem attributed to defining if two finite graphs are isomorphic?",
+        "What computational problem is commonly associated with prime factorization?",
+        "What is the unproven assumption generally ascribed to the value of complexity classes?",
+        "In what complexity class do complement problems of NP problems exist?",
+        "What variable is associated with all problems solved within logarithmic space?",
+        "Problems capable of theoretical solutions but consuming unreasonable time in practical application are known as what?",
+        "What eponymous variation of arithmetic presents a decision problem not evidenced in P?",
+        "What tactic did researchers employ to offset the former deficit of work surrounding the complexity of algorithmic problems?",
+        "What paper is commonly considered the bellwether ushering in systematic studies computational complexity?",
+        "Who provided a definition of linear bounded automata in 1960?",
+        "What is the concrete choice typically assumed by most complexity-theoretic theorems?",
+        "Who is responsible for axiomatic complexity theory?"
+    ],
+    "answer": [
+        "  The problem attributed to defining if two finite graphs are isomorphic is the Graph Isomorphism Problem.",
+        " The computational problem commonly associated with prime factorization is primality testing.",
+        "  The unproven assumption generally ascribed to the value of complexity classes is that P \u2260 NP. This means that the class P (deterministic Turing machines) is not equal to the class NP (nondeterministic Turing machines). This assumption is based on the fact that many known complexity classes are suspected to be unequal, but this has not been proved.",
+        " The complexity class where complement problems of NP problems exist is co-NP.",
+        "  The variable associated with all problems solved within logarithmic space is L.",
+        "  Intractable problems.",
+        "  The eponymous variation of arithmetic that presents a decision problem not evidenced in P is Presburger arithmetic.",
+        "  Researchers employed the following tactics to offset the former deficit of work surrounding the complexity of algorithmic problems:\n1. Definition of Turing machines by Alan Turing in 1936.\n2. Imposing restrictions on the available resources.\n3. Formalizing the intuition of inherently difficult problems by introducing mathematical models of computation to study these problems and quantifying the amount of resources needed to solve them.\n4. Introducing other complexity measures such as time and storage.\n5. Studying communication complexity and the number of gates in a circuit.",
+        " I don't know.",
+        " John Myhill provided a definition of linear bounded automata in 1960.",
+        "  Most complexity-theoretic theorems typically assume a concrete choice of input encoding, such as a specific encoding of input strings into a binary representation. This allows the theorems to be independent of the choice of encoding and ensures that different representations can be transformed into each other efficiently.",
+        "  Manuel Blum."
+    ],
+    "contexts": [
+        [
+            "The graph isomorphism problem is the computational problem of determining whether two finite\ngraphs are isomorphic. An important unsolved problem in complexity theory is whether the graph\nisomorphism problem is in P, NP-complete, or NP-intermediate. The answer is not known, but it is\nbelieved that the problem is at least not NP-complete. If graph isomorphism is NP-complete, the\npolynomial time hierarchy collapses to its second level. Since it is widely believed that the polynomial",
+            "hierarchy does not collapse to any finite level, it is believed that graph isomorphism is not\nNP-complete. The best algorithm for this problem, due to Laszlo Babai and Eugene Luks has run time\n2O((cid:214)(n log(n))) for graphs with n vertices.",
+            "problem is one of the Millennium Prize Problems proposed by the Clay Mathematics Institute. There is\na US$1,000,000 prize for resolving the problem.\nIt was shown by Ladner that if P \u201e NP then there exist problems in NP that are neither in P nor\nNP-complete. Such problems are called NP-intermediate problems. The graph isomorphism problem,\nthe discrete logarithm problem and the integer factorization problem are examples of problems"
+        ],
+        [
+            "The integer factorization problem is the computational problem of determining the prime factorization\nof a given integer. Phrased as a decision problem, it is the problem of deciding whether the input has\na factor less than k. No efficient integer factorization algorithm is known, and this fact forms the basis\nof several modern cryptographic systems, such as the RSA algorithm. The integer factorization\nproblem is in NP and in co-NP (and even in UP and co-UP). If the problem is NP-complete, the",
+            "problem of primality testing. The instance is a number (e.g. 15) and the solution is \"yes\" if the number\nis prime and \"no\" otherwise (in this case \"no\"). Stated another way, the instance is a particular input to\nthe problem, and the solution is the output corresponding to the given input.",
+            "problem is one of the Millennium Prize Problems proposed by the Clay Mathematics Institute. There is\na US$1,000,000 prize for resolving the problem.\nIt was shown by Ladner that if P \u201e NP then there exist problems in NP that are neither in P nor\nNP-complete. Such problems are called NP-intermediate problems. The graph isomorphism problem,\nthe discrete logarithm problem and the integer factorization problem are examples of problems"
+        ],
+        [
+            "Many known complexity classes are suspected to be unequal, but this has not been proved. For\ninstance P \u02dd NP \u02dd PP \u02dd PSPACE, but it is possible that P = PSPACE. If P is not equal to NP, then P\nis not equal to PSPACE either. Since there are many known complexity classes between P and\nPSPACE, such as RP, BPP, PP, BQP, MA, PH, etc., it is possible that all these complexity classes",
+            "Of course, some complexity classes have complicated definitions that do not fit into this framework.\nThus, a typical complexity class has a definition like the following:",
+            "classes defined by constraining the respective resources. Thus there are pairs of complexity classes\nsuch that one is properly included in the other. Having deduced such proper set inclusions, we can\nproceed to make quantitative statements about how much more additional time or space is needed in\norder to increase the number of problems that can be solved."
+        ],
+        [
+            "collapse to one class. Proving that any of these classes are unequal would be a major breakthrough\nincomplexity theory.\n\nAlong the same lines, co-NP is the class containing the complement problems (i.e. problems with the\nyes/no answers reversed) of NP problems. It is believed that NP is not equal to co-NP; however, it has\nnot yet been proven. It has been shown that if these two complexity classes are not equal then P is\nnot equal to NP.",
+            "The complexity class P is often seen as a mathematical abstraction modeling those computational\ntasks that admit an efficient algorithm. This hypothesis is called the Cobham\u2013Edmonds thesis. The\ncomplexity class NP, on the other hand, contains many problems that people would like to solve\nefficiently, but for which no efficient algorithm is known, such as the Boolean satisfiability problem, the\nHamiltonian path problem and the vertex cover problem. Since deterministic Turing machines are",
+            "problem is one of the Millennium Prize Problems proposed by the Clay Mathematics Institute. There is\na US$1,000,000 prize for resolving the problem.\nIt was shown by Ladner that if P \u201e NP then there exist problems in NP that are neither in P nor\nNP-complete. Such problems are called NP-intermediate problems. The graph isomorphism problem,\nthe discrete logarithm problem and the integer factorization problem are examples of problems"
+        ],
+        [
+            "Similarly, it is not known if L (the set of all problems that can be solved in logarithmic space) is strictly\ncontained in P or equal to P. Again, there are many complexity classes between the two, such as NL\nand NC, and it is not known if they are distinct or equal classes.",
+            "and the bound on the complexity of reductions, such as polynomial-time reductions or log-space\nreductions.",
+            "solved with appropriately restricted resources. In turn, imposing restrictions on the available resources\nis what distinguishes computational complexity from computability theory: the latter theory asks what\nkind of problems can, in principle, be solved algorithmically."
+        ],
+        [
+            "Problems that can be solved in theory (e.g., given large but finite time), but which in practice take too\nlong for their solutions to be useful, are known as intractable problems. In complexity theory, problems\nthat lack polynomial-time solutions are considered to be intractable for more than the smallest inputs.\nIn fact, the Cobham\u2013Edmonds thesis states that only those problems that can be solved in polynomial\ntime can be feasibly computed on some computational device. Problems that are known to be",
+            "age of the universe. Even with a much faster computer, the program would only be useful for very\nsmall instances and in that sense the intractability of a problem is somewhat independent of\ntechnological progress. Nevertheless, a polynomial time algorithm is not always practical. If its running\ntime is, say, n15, it is unreasonable to consider it efficient and it is still useless except on small\ninstances.",
+            "complexity) and the number of processors (used in parallel computing). One of the roles of\ncomputational complexity theory is to determine the practical limits on what computers can and cannot\ndo."
+        ],
+        [
+            "What intractability means in practice is open to debate. Saying that a problem is not in P does not\nimply that all large cases of the problem are hard or even that most of them are. For example, the\ndecision problem in Presburger arithmetic has been shown not to be in P, yet algorithms have been\nwritten that solve the problem in reasonable times in most cases. Similarly, algorithms can solve the\nNP-complete knapsack problem over a wide range of sizes in less than quadratic time and SAT",
+            "believed to be NP-intermediate. They are some of the very few NP problems not known to be in P or\nto be NP-complete.",
+            "The integer factorization problem is the computational problem of determining the prime factorization\nof a given integer. Phrased as a decision problem, it is the problem of deciding whether the input has\na factor less than k. No efficient integer factorization algorithm is known, and this fact forms the basis\nof several modern cryptographic systems, such as the RSA algorithm. The integer factorization\nproblem is in NP and in co-NP (and even in UP and co-UP). If the problem is NP-complete, the"
+        ],
+        [
+            "Before the actual research explicitly devoted to the complexity of algorithmic problems started off,\nnumerous foundations were laid out by various researchers. Most influential among these was the\ndefinition of Turing machines by Alan Turing in 1936, which turned out to be a very robust and flexible\nsimplification of a computer.",
+            "solved with appropriately restricted resources. In turn, imposing restrictions on the available resources\nis what distinguishes computational complexity from computability theory: the latter theory asks what\nkind of problems can, in principle, be solved algorithmically.",
+            "A problem is regarded as inherently difficult if its solution requires significant resources, whatever the\nalgorithm used. The theory formalizes this intuition, by introducing mathematical models of\ncomputation to study these problems and quantifying the amount of resources needed to solve them,\nsuch as time and storage. Other complexity measures are also used, such as the amount of\ncommunication (used in communication complexity), the number of gates in a circuit (used in circuit"
+        ],
+        [
+            "As Fortnow & Homer (2003) point out, the beginning of systematic studies in computational complexity \nis attributed to the seminal paper \"On the Computational Complexity of Algorithms\" by Juris Hartmanis \nand Richard Stearns (1965), which laid out the definitions of time and space complexity and proved \nthe hierarchy theorems. Also, in 1965 Edmonds defined a \"good\" algorithm as one with running time \nbounded by a polynomial of the input size.",
+            "In 1967, Manuel Blum developed an axiomatic complexity theory based on his axioms and proved an\nimportant result, the so-called, speed-up theorem. The field really began to flourish in 1971 when the\nUS researcher Stephen Cook and, working independently, Leonid Levin in the USSR, proved that\nthere exist practically relevant problems that are NP-complete. In 1972, Richard Karp took this idea a\nleap forward with his landmark paper, \"Reducibility Among Combinatorial Problems\", in which he",
+            "Computational complexity theory is a branch of the theory of computation in theoretical computer\nscience that focuses on classifying computational problems according to their inherent difficulty, and\nrelating those classes to each other. A computational problem is understood to be a task that is in\nprinciple amenable to being solved by a computer, which is equivalent to stating that the problem may\nbe solved by mechanical application of mathematical steps, such as an algorithm."
+        ],
+        [
+            "Earlier papers studying problems solvable by Turing machines with specific bounded resources\ninclude John Myhill's definition of linear bounded automata (Myhill 1960), Raymond Smullyan's study\nof rudimentary sets (1961), as well as Hisao Yamada's paper on real-time computations (1962).\nSomewhat earlier, Boris Trakhtenbrot (1956), a pioneer in the field from the USSR, studied another\nspecific complexity measure. As he remembers:",
+            "But bounding the computation time above by some concrete function f(n) often yields complexity\nclasses that depend on the chosen machine model. For instance, the language {xx | x is any binary\nstring} can be solved in linear time on a multi-tape Turing machine, but necessarily requires quadratic\ntime in the model of single-tape Turing machines. If we allow polynomial variations in running time,\nCobham-Edmonds thesis states that \"the time complexities in any two reasonable and general models",
+            "As Fortnow & Homer (2003) point out, the beginning of systematic studies in computational complexity \nis attributed to the seminal paper \"On the Computational Complexity of Algorithms\" by Juris Hartmanis \nand Richard Stearns (1965), which laid out the definitions of time and space complexity and proved \nthe hierarchy theorems. Also, in 1965 Edmonds defined a \"good\" algorithm as one with running time \nbounded by a polynomial of the input size."
+        ],
+        [
+            "Even though some proofs of complexity-theoretic theorems regularly assume some concrete choice of\ninput encoding, one tries to keep the discussion abstract enough to be independent of the choice of\nencoding. This can be achieved by ensuring that different representations can be transformed into\neach other efficiently.",
+            "The time and space hierarchy theorems form the basis for most separation results of complexity\nclasses. For instance, the time hierarchy theorem tells us that P is strictly contained in EXPTIME, and\nthe space hierarchy theorem tells us that L is strictly contained in PSPACE.",
+            "But bounding the computation time above by some concrete function f(n) often yields complexity\nclasses that depend on the chosen machine model. For instance, the language {xx | x is any binary\nstring} can be solved in linear time on a multi-tape Turing machine, but necessarily requires quadratic\ntime in the model of single-tape Turing machines. If we allow polynomial variations in running time,\nCobham-Edmonds thesis states that \"the time complexities in any two reasonable and general models"
+        ],
+        [
+            "In 1967, Manuel Blum developed an axiomatic complexity theory based on his axioms and proved an\nimportant result, the so-called, speed-up theorem. The field really began to flourish in 1971 when the\nUS researcher Stephen Cook and, working independently, Leonid Levin in the USSR, proved that\nthere exist practically relevant problems that are NP-complete. In 1972, Richard Karp took this idea a\nleap forward with his landmark paper, \"Reducibility Among Combinatorial Problems\", in which he",
+            "The time and space hierarchy theorems form the basis for most separation results of complexity\nclasses. For instance, the time hierarchy theorem tells us that P is strictly contained in EXPTIME, and\nthe space hierarchy theorem tells us that L is strictly contained in PSPACE.",
+            "Analogous definitions can be made for space requirements. Although time and space are the most\nwell-known complexity resources, any complexity measure can be viewed as a computational\nresource. Complexity measures are very generally defined by the Blum complexity axioms. Other\ncomplexity measures used in complexity theory include communication complexity, circuit complexity,\nand decision tree complexity."
+        ]
+    ],
+    "ground_truth": [
+        "graph isomorphism",
+        "integer factorization",
+        "unequal",
+        "co-NP",
+        "L",
+        "intractable problems",
+        "Presburger",
+        "numerous foundations were laid out",
+        "On the Computational Complexity of Algorithms",
+        "John Myhill",
+        "input encoding",
+        "Manuel Blum"
+    ]
+}

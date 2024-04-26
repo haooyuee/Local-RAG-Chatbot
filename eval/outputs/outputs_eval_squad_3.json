@@ -1,0 +1,106 @@
+{
+    "question": [
+        "Concrete bounding of computation time frequently produces complexity classes contingent upon what?",
+        "What are two examples of measurements are bound within algorithms to establish complexity classes?",
+        "What are three examples of complexity classes associated with definitions established by probabilistic Turing machines?",
+        "What is an example of a measurement within a complexity class that would create a bigger set of problems if the bounds were relaxed?",
+        "What is the foundation for separation results within complexity classes?",
+        "What concept is frequently used to define complexity classes?",
+        "What is the most frequently employed type of reduction?",
+        "The complexity of problems often depends on what?",
+        "The hardest problems in NP can be analogously written as what class of problems?",
+        "What complexity class is characterized by a computational tasks and efficient algorithms?",
+        "If P is ultimately proven to be equal tot NP, what effect would this have on the efficiency of problems?",
+        "Who demonstrated that P= NP implies problems not present in P or NP-complete?"
+    ],
+    "answer": [
+        "  The answer to the question is \"Bounding the computation time above by some concrete function f(n) often yields complexity classes that depend on the chosen machine model.\"",
+        "  Two examples of measurements that are bound within algorithms to establish complexity classes are time complexity and space complexity. Time complexity refers to the amount of time an algorithm takes to complete, while space complexity refers to the amount of memory an algorithm uses. By bounding these measurements within algorithms, researchers can define complexity classes that are based on the time or space required to solve a problem, such as polynomial-time reductions or log-space reductions.",
+        "  The three examples of complexity classes associated with definitions established by probabilistic Turing machines are BPP, ZPP, and RP.",
+        "  The answer to this question depends on the specific complexity class being discussed. For example, if the complexity class being discussed is DTIME(n), then relaxing the time bound to DTIME(n2) would result in a bigger set of problems. However, it is not necessarily the case that the inclusion is strict.\n\n",
+        " The time and space hierarchy theorems form the foundation for separation results within complexity classes.",
+        "  Reductions.",
+        "  The most frequently employed type of reduction in defining complexity classes is a polynomial-time reduction.",
+        "  The complexity of a problem is determined by the size of the instance.\nDon't Know:  I don't know the answer to this question.",
+        "  The hardest problems in NP can be analogously written as the set of problems that are hard for the complexity class of PSPACE.",
+        "  P\n\n\n\n",
+        "  I don't know the answer to this question.",
+        "  The person who demonstrated that P=NP implies problems not present in P or NP-complete is Richard M. Karp."
+    ],
+    "contexts": [
+        [
+            "But bounding the computation time above by some concrete function f(n) often yields complexity\nclasses that depend on the chosen machine model. For instance, the language {xx | x is any binary\nstring} can be solved in linear time on a multi-tape Turing machine, but necessarily requires quadratic\ntime in the model of single-tape Turing machines. If we allow polynomial variations in running time,\nCobham-Edmonds thesis states that \"the time complexities in any two reasonable and general models",
+            "Many important complexity classes can be defined by bounding the time or space used by the\nalgorithm. Some important complexity classes of decision problems defined in this manner are the\nfollowing:",
+            "To classify the computation time (or similar resources, such as space consumption), one is interested\nin proving upper and lower bounds on the minimum amount of time required by the most efficient\nalgorithm solving a given problem. The complexity of an algorithm is usually taken to be its worst-case\ncomplexity, unless specified otherwise. Analyzing a particular algorithm falls under the field of analysis\nof algorithms. To show an upper bound T(n) on the time complexity of a problem, one needs to show"
+        ],
+        [
+            "and the bound on the complexity of reductions, such as polynomial-time reductions or log-space\nreductions.",
+            "Many important complexity classes can be defined by bounding the time or space used by the\nalgorithm. Some important complexity classes of decision problems defined in this manner are the\nfollowing:",
+            "Analogous definitions can be made for space requirements. Although time and space are the most\nwell-known complexity resources, any complexity measure can be viewed as a computational\nresource. Complexity measures are very generally defined by the Blum complexity axioms. Other\ncomplexity measures used in complexity theory include communication complexity, circuit complexity,\nand decision tree complexity."
+        ],
+        [
+            "Other important complexity classes include BPP, ZPP and RP, which are defined using probabilistic\nTuring machines; AC and NC, which are defined using Boolean circuits; and BQP and QMA, which\nare defined using quantum Turing machines. #P is an important complexity class of counting problems\n(not decision problems). Classes like IP and AM are defined using Interactive proof systems. ALL is\nthe class of all decision problems.",
+            "Many types of Turing machines are used to define complexity classes, such as deterministic Turing\nmachines, probabilistic Turing machines, non-deterministic Turing machines, quantum Turing\nmachines, symmetric Turing machines and alternating Turing machines. They are all equally powerful\nin principle, but when resources (such as time or space) are bounded, some of these may be more",
+            "The complexity class P is often seen as a mathematical abstraction modeling those computational\ntasks that admit an efficient algorithm. This hypothesis is called the Cobham\u2013Edmonds thesis. The\ncomplexity class NP, on the other hand, contains many problems that people would like to solve\nefficiently, but for which no efficient algorithm is known, such as the Boolean satisfiability problem, the\nHamiltonian path problem and the vertex cover problem. Since deterministic Turing machines are"
+        ],
+        [
+            "For the complexity classes defined in this way, it is desirable to prove that relaxing the requirements\non (say) computation time indeed defines a bigger set of problems. In particular, although DTIME(n) is\ncontained in DTIME(n2), it would be interesting to know if the inclusion is strict. For time and space\nrequirements, the answer to such questions is given by the time and space hierarchy theorems\nrespectively. They are called hierarchy theorems because they induce a proper hierarchy on the",
+            "and the bound on the complexity of reductions, such as polynomial-time reductions or log-space\nreductions.",
+            "Many important complexity classes can be defined by bounding the time or space used by the\nalgorithm. Some important complexity classes of decision problems defined in this manner are the\nfollowing:"
+        ],
+        [
+            "The time and space hierarchy theorems form the basis for most separation results of complexity\nclasses. For instance, the time hierarchy theorem tells us that P is strictly contained in EXPTIME, and\nthe space hierarchy theorem tells us that L is strictly contained in PSPACE.",
+            "Many important complexity classes can be defined by bounding the time or space used by the\nalgorithm. Some important complexity classes of decision problems defined in this manner are the\nfollowing:",
+            "of computation are polynomially related\" (Goldreich 2008, Chapter 1.2). This forms the basis for the\ncomplexity class P, which is the set of decision problems solvable by a deterministic Turing machine\nwithin polynomial time. The corresponding set of function problems is FP."
+        ],
+        [
+            "Many complexity classes are defined using the concept of a reduction. A reduction is a transformation\nof one problem into another problem. It captures the informal notion of a problem being at least as\ndifficult as another problem. For instance, if a problem X can be solved using an algorithm for Y, X is\nno more difficult than Y, and we say that X reduces to Y. There are many different types of reductions,\nbased on the method of reduction, such as Cook reductions, Karp reductions and Levin reductions,",
+            "Many types of Turing machines are used to define complexity classes, such as deterministic Turing\nmachines, probabilistic Turing machines, non-deterministic Turing machines, quantum Turing\nmachines, symmetric Turing machines and alternating Turing machines. They are all equally powerful\nin principle, but when resources (such as time or space) are bounded, some of these may be more",
+            "Many important complexity classes can be defined by bounding the time or space used by the\nalgorithm. Some important complexity classes of decision problems defined in this manner are the\nfollowing:"
+        ],
+        [
+            "Many complexity classes are defined using the concept of a reduction. A reduction is a transformation\nof one problem into another problem. It captures the informal notion of a problem being at least as\ndifficult as another problem. For instance, if a problem X can be solved using an algorithm for Y, X is\nno more difficult than Y, and we say that X reduces to Y. There are many different types of reductions,\nbased on the method of reduction, such as Cook reductions, Karp reductions and Levin reductions,",
+            "The most commonly used reduction is a polynomial-time reduction. This means that the reduction\nprocess takes polynomial time. For example, the problem of squaring an integer can be reduced to the\nproblem of multiplying two integers. This means an algorithm for multiplying two integers can be used\nto square an integer. Indeed, this can be done by giving the same input to both inputs of the\nmultiplication algorithm. Thus we see that squaring is not more difficult than multiplication, since",
+            "Many important complexity classes can be defined by bounding the time or space used by the\nalgorithm. Some important complexity classes of decision problems defined in this manner are the\nfollowing:"
+        ],
+        [
+            "To measure the difficulty of solving a computational problem, one may wish to see how much time the\nbest algorithm requires to solve the problem. However, the running time may, in general, depend on\nthe instance. In particular, larger instances will require more time to solve. Thus the time required to\nsolve a problem (or the space required, or any measure of complexity) is calculated as a function of\nthe size of the instance. This is usually taken to be the size of the input in bits. Complexity theory is",
+            "Many important complexity classes can be defined by bounding the time or space used by the\nalgorithm. Some important complexity classes of decision problems defined in this manner are the\nfollowing:",
+            "Computational complexity theory is a branch of the theory of computation in theoretical computer\nscience that focuses on classifying computational problems according to their inherent difficulty, and\nrelating those classes to each other. A computational problem is understood to be a task that is in\nprinciple amenable to being solved by a computer, which is equivalent to stating that the problem may\nbe solved by mechanical application of mathematical steps, such as an algorithm."
+        ],
+        [
+            "If a problem X is in C and hard for C, then X is said to be complete for C. This means that X is the\nhardest problem in C. (Since many problems could be equally hard, one might say that X is one of the\nhardest problems in C.) Thus the class of NP-complete problems contains the most difficult problems\nin NP, in the sense that they are the ones most likely not to be in P. Because the problem P = NP is\nnot solved, being able to reduce a known NP-complete problem, P2, to another problem, P1, would",
+            "NP-hard problems.",
+            "This motivates the concept of a problem being hard for a complexity class. A problem X is hard for a\nclass of problems C if every problem in C can be reduced to X. Thus no problem in C is harder than X,\nsince an algorithm for X allows us to solve any problem in C. Of course, the notion of hard problems\ndepends on the type of reduction being used. For complexity classes larger than P, polynomial-time\nreductions are commonly used. In particular, the set of problems that are hard for NP is the set of"
+        ],
+        [
+            "The complexity class P is often seen as a mathematical abstraction modeling those computational\ntasks that admit an efficient algorithm. This hypothesis is called the Cobham\u2013Edmonds thesis. The\ncomplexity class NP, on the other hand, contains many problems that people would like to solve\nefficiently, but for which no efficient algorithm is known, such as the Boolean satisfiability problem, the\nHamiltonian path problem and the vertex cover problem. Since deterministic Turing machines are",
+            "Computational complexity theory is a branch of the theory of computation in theoretical computer\nscience that focuses on classifying computational problems according to their inherent difficulty, and\nrelating those classes to each other. A computational problem is understood to be a task that is in\nprinciple amenable to being solved by a computer, which is equivalent to stating that the problem may\nbe solved by mechanical application of mathematical steps, such as an algorithm.",
+            "Many important complexity classes can be defined by bounding the time or space used by the\nalgorithm. Some important complexity classes of decision problems defined in this manner are the\nfollowing:"
+        ],
+        [
+            "The question of whether P equals NP is one of the most important open questions in theoretical\ncomputer science because of the wide implications of a solution. If the answer is yes, many important\nproblems can be shown to have more efficient solutions. These include various types of integer\nprogramming problems in operations research, many problems in logistics, protein structure prediction\nin biology, and the ability to find formal proofs of pure mathematics theorems. The P versus NP",
+            "collapse to one class. Proving that any of these classes are unequal would be a major breakthrough\nincomplexity theory.\n\nAlong the same lines, co-NP is the class containing the complement problems (i.e. problems with the\nyes/no answers reversed) of NP problems. It is believed that NP is not equal to co-NP; however, it has\nnot yet been proven. It has been shown that if these two complexity classes are not equal then P is\nnot equal to NP.",
+            "Many known complexity classes are suspected to be unequal, but this has not been proved. For\ninstance P \u02dd NP \u02dd PP \u02dd PSPACE, but it is possible that P = PSPACE. If P is not equal to NP, then P\nis not equal to PSPACE either. Since there are many known complexity classes between P and\nPSPACE, such as RP, BPP, PP, BQP, MA, PH, etc., it is possible that all these complexity classes"
+        ],
+        [
+            "problem is one of the Millennium Prize Problems proposed by the Clay Mathematics Institute. There is\na US$1,000,000 prize for resolving the problem.\nIt was shown by Ladner that if P \u201e NP then there exist problems in NP that are neither in P nor\nNP-complete. Such problems are called NP-intermediate problems. The graph isomorphism problem,\nthe discrete logarithm problem and the integer factorization problem are examples of problems",
+            "What intractability means in practice is open to debate. Saying that a problem is not in P does not\nimply that all large cases of the problem are hard or even that most of them are. For example, the\ndecision problem in Presburger arithmetic has been shown not to be in P, yet algorithms have been\nwritten that solve the problem in reasonable times in most cases. Similarly, algorithms can solve the\nNP-complete knapsack problem over a wide range of sizes in less than quadratic time and SAT",
+            "If a problem X is in C and hard for C, then X is said to be complete for C. This means that X is the\nhardest problem in C. (Since many problems could be equally hard, one might say that X is one of the\nhardest problems in C.) Thus the class of NP-complete problems contains the most difficult problems\nin NP, in the sense that they are the ones most likely not to be in P. Because the problem P = NP is\nnot solved, being able to reduce a known NP-complete problem, P2, to another problem, P1, would"
+        ]
+    ],
+    "ground_truth": [
+        "the chosen machine model",
+        "time or space",
+        "BPP, ZPP and RP",
+        "computation time",
+        "The time and space hierarchy theorems",
+        "a reduction",
+        "polynomial-time",
+        "the type of reduction being used",
+        "NP-complete",
+        "P",
+        "shown to have more efficient solutions",
+        "Ladner"
+    ]
+}
