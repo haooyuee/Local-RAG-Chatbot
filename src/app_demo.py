@@ -1,8 +1,8 @@
 #streamlit run app_demo.py --logger.level=DEBUG
-#streamlit run src\app_demo.py
+#streamlit run app_demo.py
 import streamlit as st
 from streamlit_chat import message
-from chatbot_base import PDFChatBot
+from chatbot import PDFChatBot
 import time
 import atexit
 import tempfile
@@ -56,9 +56,12 @@ if uploaded_file is not None:
         st.session_state['tmp_file_path'] = tmp_file.name
     try:
         image = st.session_state.pdf_chatbot.render_file(st.session_state['tmp_file_path'])
+    except Exception as e:
+        st.error(f"1. Error processing PDF file: {type(e).__name__}, {str(e)}")
+    try:
         right_column.image(image, caption='PDF Preview', use_column_width=True)
     except Exception as e:
-        st.error(f"Error processing PDF file: {str(e)}")
+        st.error(f"2. Error processing PDF file: {type(e).__name__}, {str(e)}")
 ### ********************* RIGHT SIDE ********************* END
 
 ### ********************* LEFT SIDE **********************

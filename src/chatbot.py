@@ -218,7 +218,7 @@ class PDFChatBot:
             PIL.Image.Image: The rendered page as an image.
         """
         doc = fitz.open(file)
-        page = doc[self.page]
+        page = doc[int(self.page)]
         pix = page.get_pixmap(matrix=fitz.Matrix(300 / 72, 300 / 72))
         image = Image.frombytes('RGB', [pix.width, pix.height], pix.samples)
         return image
@@ -241,7 +241,9 @@ if __name__ == "__main__":
     for i in range(len(queries)):
         print(f"Round {i}: Query = {queries[i]}")
         answer= chat_bot.generate_response(queries[i], pdf_file)
+        image = chat_bot.render_file(pdf_file)
         print(f"Answer: {answer['answer']}\n")
+        print(f"image: {image}\n")
     print("chathistory ################")
     print(chat_bot.chat_history)
     print("chathistory finish##########")
