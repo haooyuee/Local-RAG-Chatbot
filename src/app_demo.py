@@ -9,11 +9,10 @@ import tempfile
 import shutil
 import os
 
-# delete temporary files
+# When the demo stops, close and delete tmp file
 def cleanup():
     if 'tmp_file_path' in st.session_state and os.path.exists(st.session_state['tmp_file_path']):
         os.remove(st.session_state['tmp_file_path'])
-# when program exits
 atexit.register(cleanup)
 
 def show_chat():
@@ -23,6 +22,14 @@ def show_chat():
             message(st.session_state['user_history'][i], 
                     is_user=True, 
                     key=str(i)+'_user', seed=2)
+            
+def update_pdf_preview():
+    if 'tmp_file_path' in st.session_state:
+        try:
+            image = st.session_state.pdf_chatbot.render_file(st.session_state['tmp_file_path'])
+            pdf_preview.image(image, caption='PDF Preview', use_column_width=True)
+        except Exception as e:
+            st.error(f"Error processing PDF file: {str(e)}")   
 
 # Set theme and title
 st.set_page_config(page_title="PDF Chatbot Q&A", layout="wide")
@@ -31,19 +38,29 @@ st.sidebar.header("Intro")
 st.sidebar.info(
     '''This is a web application. 
     Enter a question in the text box and press Enter to query and receive answers from ChatBot.'''
-)
+) 
 
+left_column, right_column = st.columns([3, 2])
 
-# Initialize PDFChatBot and chat history
+#Initialize PDFChatBot and chat history
 if 'pdf_chatbot' not in st.session_state:
     st.session_state.pdf_chatbot = PDFChatBot()
-
 if 'bot_history' not in st.session_state:
     st.session_state.bot_history = []
 if 'user_history' not in st.session_state:
     st.session_state.user_history = []
 
-left_column, right_column = st.columns([3, 2])
+### ********************* RIGHT SIDE ********************* 
+with right_column:
+    uploaded_file = st.file_uploader("📁 Upload PDF", type="pdf", key="pdf_uploader")
+    pdf_preview = st.empty()
+    # PDF upload and display preview page 0
+    if uploaded_file is not None:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
+            shutil.copyfileobj(uploaded_file, tmp_file)
+            st.session_state['tmp_file_path'] = tmp_file.name
+    update_pdf_preview()
+### ********************* RIGHT SIDE ********************* END
 
 ### ********************* LEFT SIDE **********************
 with left_column:
@@ -52,29 +69,10 @@ with left_column:
         submit_button = st.form_submit_button(label='Send')
     
     chat_container = st.container()
-### ********************* LEFT SIDE ********************** END      
-
-### ********************* RIGHT SIDE ********************* 
-with right_column:
-    uploaded_file = st.file_uploader("📁 Upload PDF", type="pdf", key="pdf_uploader")
-    pdf_preview = st.empty()
-    # PDF upload and show preview
-    if uploaded_file is not None:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
-            shutil.copyfileobj(uploaded_file, tmp_file)
-            st.session_state['tmp_file_path'] = tmp_file.name
-        try:
-            image = st.session_state.pdf_chatbot.render_file(st.session_state['tmp_file_path'])
-            pdf_preview.image(image, caption='PDF Preview', use_column_width=True)
-        except Exception as e:
-            st.error(f"Error processing PDF file: {str(e)}")
-### ********************* RIGHT SIDE ********************* END
-
-   
+### ********************* LEFT SIDE ********************** END         
 if submit_button and question:
     if 'tmp_file_path' in st.session_state:
         st.session_state.user_history.append(question)
-
         try:
             with st.spinner(text='Generating response...'):
                 result = st.session_state.pdf_chatbot.generate_response(
@@ -83,9 +81,10 @@ if submit_button and question:
                 st.session_state.bot_history.append(result["answer"])
         except Exception as e:
             st.error(f"Error generating response: {str(e)}")
+        # display preview page context
+        update_pdf_preview()
     else:
         st.error("Please upload a PDF file before asking questions.")
 
 with chat_container:
     show_chat()
-
