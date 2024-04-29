@@ -101,7 +101,7 @@ class PDFChatBot:
         """
         Load embeddings from LOCAL.
         """
-        self.embeddings = HuggingFaceEmbeddings(model_name="intfloat/multilingual-e5-small")
+        self.embeddings = HuggingFaceEmbeddings(model_name=self.config.get("modelEmbeddings2"))
 
     def creat_retriever(self):
         """
@@ -224,9 +224,7 @@ class PDFChatBot:
         return image
 
 if __name__ == "__main__":
-    path        =  "D:\GithubLocal\RAG-with-Llama2\config.yaml"
-    
-    pdf_file    = "../documents/barlowtwins-CXR.pdf"
+    path        = "D:/GithubLocal/RAG-with-Llama2/config.yaml"
     pdf_file    = "D:/GithubLocal/RAG-with-Llama2/documents/barlowtwins-CXR.pdf"
     chat_bot    = PDFChatBot(config_path=path)
     queries     = [
@@ -246,4 +244,4 @@ if __name__ == "__main__":
         print(f"image: {image}\n")
     print("chathistory ################")
     print(chat_bot.chat_history)
-    print("chathistory finish##########")
+    print("chathistory finish ##########")

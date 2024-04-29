@@ -1,3 +1,4 @@
 modelEmbeddings: "sentence-transformers/all-MiniLM-L6-v2" #384 dimensional 90.9MB
+modelEmbeddings2: "intfloat/multilingual-e5-small"
 autoTokenizer: "TheBloke/Llama-2-7B-Chat-GPTQ"
 autoModelForCausalLM: "TheBloke/Llama-2-7B-Chat-GPTQ"

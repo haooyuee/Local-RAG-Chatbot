@@ -208,9 +208,7 @@ class PDFChatBot:
         return image
 
 if __name__ == "__main__":
-    path        =  "D:\GithubLocal\RAG-with-Llama2\config.yaml"
-    
-    pdf_file    = "../documents/barlowtwins-CXR.pdf"
+    path        = "D:/GithubLocal/RAG-with-Llama2/config.yaml"
     pdf_file    = "D:/GithubLocal/RAG-with-Llama2/documents/barlowtwins-CXR.pdf"
     chat_bot    = PDFChatBot(config_path=path)
     queries     = [
@@ -233,4 +231,4 @@ if __name__ == "__main__":
         print(f"Answer: {answer}\n")
     print("chathistory ################")
     print(chat_bot.chat_history)
-    print("chathistory finish##########")
+    print("chathistory finish ##########")
