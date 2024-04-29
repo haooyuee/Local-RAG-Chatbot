@@ -45,25 +45,6 @@ if 'user_history' not in st.session_state:
 
 left_column, right_column = st.columns([3, 2])
 
-
-### ********************* RIGHT SIDE ********************* 
-with right_column:
-    uploaded_file = st.file_uploader("📁 Upload PDF", type="pdf", key="pdf_uploader")
-# PDF upload and show preview
-if uploaded_file is not None:
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
-        shutil.copyfileobj(uploaded_file, tmp_file)
-        st.session_state['tmp_file_path'] = tmp_file.name
-    try:
-        image = st.session_state.pdf_chatbot.render_file(st.session_state['tmp_file_path'])
-    except Exception as e:
-        st.error(f"1. Error processing PDF file: {type(e).__name__}, {str(e)}")
-    try:
-        right_column.image(image, caption='PDF Preview', use_column_width=True)
-    except Exception as e:
-        st.error(f"2. Error processing PDF file: {type(e).__name__}, {str(e)}")
-### ********************* RIGHT SIDE ********************* END
-
 ### ********************* LEFT SIDE **********************
 with left_column:
     with st.form(key='question_form',clear_on_submit=True):
@@ -71,7 +52,25 @@ with left_column:
         submit_button = st.form_submit_button(label='Send')
     
     chat_container = st.container()
-### ********************* LEFT SIDE ********************** END         
+### ********************* LEFT SIDE ********************** END      
+
+### ********************* RIGHT SIDE ********************* 
+with right_column:
+    uploaded_file = st.file_uploader("📁 Upload PDF", type="pdf", key="pdf_uploader")
+    pdf_preview = st.empty()
+    # PDF upload and show preview
+    if uploaded_file is not None:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
+            shutil.copyfileobj(uploaded_file, tmp_file)
+            st.session_state['tmp_file_path'] = tmp_file.name
+        try:
+            image = st.session_state.pdf_chatbot.render_file(st.session_state['tmp_file_path'])
+            pdf_preview.image(image, caption='PDF Preview', use_column_width=True)
+        except Exception as e:
+            st.error(f"Error processing PDF file: {str(e)}")
+### ********************* RIGHT SIDE ********************* END
+
+   
 if submit_button and question:
     if 'tmp_file_path' in st.session_state:
         st.session_state.user_history.append(question)

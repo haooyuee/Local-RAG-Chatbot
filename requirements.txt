@@ -1,12 +1,51 @@
-PyMuPDF==1.23.17
-gradio==4.11.0      
-langchain==0.0.321  
-Pillow==10.1.0      
-torch==2.1.1        
-transformers==4.35.2
-PyYAML==6.0.1
-chromadb==0.4.15
-pypdf==4.0.0
-Jinja2==3.1.3
-accelerate==0.26.1
-sentence-transformers==2.2.2
+#conda create -n test python=3.10
+#pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+#torch needs to be installed manually, got:
+#torch             2.2.2+cu121
+#torchaudio        2.2.2+cu121
+#torchvision       0.17.2+cu121
+
+#pip install -r requirements_test.txt
+
+langchain==0.1.7
+#langchain-cohere==0.1.0rc1
+langchain-community==0.0.20
+langchain-core==0.1.23
+langchain-openai==0.0.6
+
+# problem Langchain: ModuleNotFoundError: No module named 'pwd'
+# solve: https://github.com/langchain-ai/langchain/issues/17514
+
+transformers==4.37.1
+optimum==1.17.1
+
+accelerate==0.27.2
+auto_gptq==0.7.0
+huggingface-hub==0.20.3
+sentence-transformers==2.3.1
+
+PyPDF2==3.0.1
+PyMuPDF==1.23.23
+pypdf==4.0.1
+pdfminer.six==20221105
+
+chromadb==0.4.22
+faiss-cpu==1.8.0
+
+nltk==3.8.1
+openai==1.14.3
+
+rank-bm25==0.2.2
+#cohere==4.57
+scipy==1.10.1
+
+streamlit==1.31.1
+streamlit-chat==0.1.1
+
+evaluate==0.4.1
+rouge_score==0.1.2
+reportlab==4.2.0
+ragas==0.1.5
+PyPDF2
+# final : pip install -e .
+# pip install cohere==4.57
