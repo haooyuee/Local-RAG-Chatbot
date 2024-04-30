@@ -1,10 +1,11 @@
 # Local Assistant Chatbot with Memory Through Retrieval-Augmented Generation
-
+![rag](https://github.com/haooyuee/Local-RAG-Chatbot/assets/104264477/2e15e69d-1d8c-476a-a5de-35b34624f6f2)
 This project explores leveraging Retrieval Augmented Generation (RAG) to empower local assistant chatbots for efficient and privacy-aware PDF management. 
 
 Compute resource requirements: 16GB RAM, 6GB GPU memory. 
 
 (Development environment: Lenovo Thinkbook16p Nvidia 3060 6GB)
+
 
 ##
 * Langchain Framework
